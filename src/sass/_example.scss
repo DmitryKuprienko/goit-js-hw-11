@@ -1,3 +1,9 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 .example {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -34,7 +40,16 @@
   justify-content: center;
 
 }
+
 .search-form{
-  margin: 10px 0;
+  margin: 16px 0;
+  outline: 1px solid tomato;
+
+
+}
+
+input,
+button{
+  height: 32px;
 
 }

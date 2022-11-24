@@ -9,13 +9,18 @@ const refs={
 
 }
 
+console.log(refs.formRef, refs.inputRef,refs.buttonRef)
+
+
 refs.inputRef.addEventListener('input', (e)=>{
     console.log(e.target.value)
 })
 
-axios.get('/user?ID=12345')
+const promis = axios.get('/user?ID=12345')
   .then(function (response) {
     // handle success
+    
+  
     console.log(response);
   })
   .catch(function (error) {
@@ -28,6 +33,3 @@ axios.get('/user?ID=12345')
 
 
 
-console.log(refs.formRef)
-console.log(refs.inputRef)
-console.log(refs.buttonRef)

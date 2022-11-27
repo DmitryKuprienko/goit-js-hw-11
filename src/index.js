@@ -13,7 +13,7 @@ const refs = {
 refs.form.addEventListener('submit', onFormSubmit);
 
 let alreadyShown = 0;
-let page = 1;
+
 
 function onFormSubmit(e) {
   e.preventDefault();

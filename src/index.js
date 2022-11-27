@@ -6,45 +6,32 @@ import axios from 'axios';
 const refs = {
   form: document.querySelector('#search-form'),
   gallery: document.querySelector('.gallery'),
-  loadMore: document.querySelector('.load-more'),
+  inputField: document.querySelector('input')
+ 
 };
-
-refs.loadMore.style.display = 'none';
-let alreadyShown = 0;
-let page = 1;
 
 refs.form.addEventListener('submit', onFormSubmit);
 
-refs.loadMore.addEventListener('click', onLoadMoreClick);
-
-function onLoadMoreClick() {
-  refs.loadMore.style.display = 'none';
-  page += 1;
-  const name = refs.form.querySelector('input').value.trim();
-  loadFromAPI(name, page);
-  refs.loadMore.style.display = 'flex';
-}
-
-refs.form.querySelector('input');
+let alreadyShown = 0;
+let page = 1;
 
 function onFormSubmit(e) {
   e.preventDefault();
   alreadyShown = 0;
   refs.gallery.innerHTML = '';
 
-  const name = refs.form.querySelector('input').value.trim();
+  const name = refs.inputField.value.trim();
 
   if (name !== '') {
     loadFromAPI(name);
   } else {
-    refs.loadMore.style.display = 'none';
-    return Notify.failure(
+       return Notify.failure(
       'Sorry, there are no images matching your search query. Please try again.'
     );
   }
 }
 
-// ----------------------------loadFromAPI;
+
 async function loadFromAPI(name, page) {
   const BASE_URL = 'https://pixabay.com/api/';
 
@@ -73,9 +60,11 @@ async function loadFromAPI(name, page) {
 
     renderGallery(response.data);
   } catch (error) {
-    console.log(error);
+    console.error();
   }
 }
+
+
 function renderGallery(picture) {
   const markup = picture.hits
     .map(
@@ -108,10 +97,21 @@ function renderGallery(picture) {
   simpleLightBox.refresh();
 }
 
+window.addEventListener("scroll", ()=>{
+  const {scrollHeight,scrollTop,clientHeight} = document.documentElement;
+ if(scrollHeight-clientHeight ===scrollTop){
+  loadFromAPI()
+ }
+})
+
+
+
 const simpleLightBox = new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
   captionDelay: 250,
 });
+
+
 function message(length, alreadyShown, per_page, total) {
   if (!length) {
     Notify.failure(
@@ -119,11 +119,9 @@ function message(length, alreadyShown, per_page, total) {
     );
   }
   if (length >= alreadyShown) {
-    refs.loadMore.style.display = 'flex';
-    Notify.info(`Hooray! We found ${total} images.`);
+       Notify.info(`Hooray! We found ${total} images.`);
   }
   if (alreadyShown >= total) {
-    refs.loadMore.style.display = 'none';
-    Notify.info("We're sorry, but you've reached the end of search results.");
+      Notify.info("We're sorry, but you've reached the end of search results.");
   }
 }

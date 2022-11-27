@@ -6,7 +6,7 @@ import axios from 'axios';
 const refs = {
   form: document.querySelector('#search-form'),
   gallery: document.querySelector('.gallery'),
-  inputField: document.querySelector('input')
+  inputField: document.querySelector('input'),
  
 };
 
